@@ -1,0 +1,10 @@
+{
+  "info": {
+    "name": "click",
+    "version": "8.1.7",
+    "requires_dist": [
+      "colorama; platform_system == \"Windows\"",
+      "importlib-metadata; python_version < \"3.8\""
+    ]
+  }
+}
