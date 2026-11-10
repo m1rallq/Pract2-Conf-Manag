@@ -22,6 +22,8 @@ run -p requests -r test_repos/simple.txt
 echo "=== --test-mode ==="
 run -p A -t
 run -p A -t -r no_such_file.txt
+run -p A -t -r test_repos/broken.txt
+run -p Z -t -r test_repos/simple.txt
 
 echo "=== --ascii-tree ==="
 run -p requests --ascii-tree=yes
