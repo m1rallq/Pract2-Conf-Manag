@@ -1,0 +1,9 @@
+{
+  "info": {
+    "name": "idna",
+    "version": "3.10",
+    "requires_dist": [
+      "ruff>=0.6.2; extra == \"all\""
+    ]
+  }
+}

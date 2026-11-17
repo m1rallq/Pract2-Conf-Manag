@@ -12,7 +12,7 @@ import urllib.error
 from cli import parse_args
 from collector import CollectError, collect
 from local_repo import LocalRepoError, parse_graph
-from main import format_report, main
+from main import main
 from pypi_client import RepositoryError, fetch_requires_dist
 
 HERE = os.path.dirname(__file__)
@@ -149,19 +149,20 @@ class LocalRepoTest(unittest.TestCase):
 class OutputTest(unittest.TestCase):
     """Вывод результата."""
 
-    def test_report(self):
-        """В отчёте есть имя, число и список зависимостей."""
+    def test_main_prints_graph(self):
+        """main печатает граф и возвращает 0."""
         path = os.path.join(REPOS, "simple.txt")
-        info = collect(parse_args(["-p", "A", "-t", "-r", path]))
-        report = format_report(info)
-        self.assertIn("Прямые зависимости пакета A (2)", report)
-        self.assertIn("  B", report)
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            code = main(["-p", "A", "-t", "-r", path])
+        self.assertEqual(code, 0)
+        self.assertIn("Граф зависимостей пакета A", out.getvalue())
+        self.assertIn("  A -> B, C", out.getvalue())
 
     def test_main_error_code(self):
         """При ошибке main возвращает 1."""
         with contextlib.redirect_stderr(io.StringIO()):
             self.assertEqual(main(["-p", "A", "-t"]), 1)
-
 
 if __name__ == "__main__":
     unittest.main()
